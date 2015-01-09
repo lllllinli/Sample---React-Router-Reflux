@@ -1,0 +1,26 @@
+/* Main.css */
+
+body{
+    background-color: #f3f3f3;
+}
+
+.Wrapper{
+    width: 100%;
+    height: auto;
+}
+.Menu{
+    background-color: #A4DEF0;
+    padding: 0px 0 0px 0px;
+}
+.Menu ul{
+
+    padding: 0;
+}
+.Menu ul li{
+    border-bottom: 1px solid #D7EFF7;
+    padding: 10px;
+}
+.Menu ul li a{
+
+    text-decoration: underline;
+}

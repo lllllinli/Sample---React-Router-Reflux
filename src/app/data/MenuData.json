@@ -1,0 +1,16 @@
+{
+    "Menu":[
+        {
+            "path": "app",
+            "pathName":"Dashboard"
+        },
+        {
+            "path": "inbox",
+            "pathName":"inbox"
+        },
+        {
+            "path": "calendar",
+            "pathName":"calendar"
+        }
+    ]
+}
