@@ -24607,7 +24607,7 @@ Router.run(Routes, function (Handler, state) {
 
 
 
-},{"./pages/CalendarPages":219,"./pages/DashboardPage":220,"./pages/InboxNotFoundPage":221,"./pages/InboxPage":222,"./pages/InboxPageStats":223,"./pages/MainPage":224,"./pages/NotFoundPage":225,"./widgets/MessageWidgets":232,"react":"nakDgH","react-router":14}],219:[function(require,module,exports){
+},{"./pages/CalendarPages":219,"./pages/DashboardPage":220,"./pages/InboxNotFoundPage":221,"./pages/InboxPage":222,"./pages/InboxPageStats":223,"./pages/MainPage":224,"./pages/NotFoundPage":225,"./widgets/MessageWidgets":233,"react":"nakDgH","react-router":14}],219:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24756,7 +24756,7 @@ var InboxNotFoundPage = React.createClass({displayName: "InboxNotFoundPage",
 
 module.exports = InboxNotFoundPage;
 
-},{"../widgets/MessageWidgets":232,"../widgets/ToolbarWidgets":233,"react":"nakDgH","react-router":14}],222:[function(require,module,exports){
+},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],222:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24791,7 +24791,7 @@ var InboxPage = React.createClass({displayName: "InboxPage",
 
 module.exports = InboxPage;
 
-},{"../widgets/MessageWidgets":232,"../widgets/ToolbarWidgets":233,"react":"nakDgH","react-router":14}],223:[function(require,module,exports){
+},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],223:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24823,7 +24823,7 @@ var InboxPageStats = React.createClass({displayName: "InboxPageStats",
 
 module.exports = InboxPageStats;
 
-},{"../widgets/MessageWidgets":232,"react":"nakDgH","react-router":14}],224:[function(require,module,exports){
+},{"../widgets/MessageWidgets":233,"react":"nakDgH","react-router":14}],224:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24854,6 +24854,8 @@ var MenuStore = require('../stores/MenuStore');
 var ProductStore=require('../stores/ProductStore');
 var OverviewStore=require('../stores/OverviewStore');
 
+//var ParallelStore=require('../stores/ParallelStore');
+var DefaultDataStore=require('../stores/DefaultDataStore');
 
 
 
@@ -24943,7 +24945,7 @@ var MainPage = React.createClass({displayName: "MainPage",
 
 module.exports = MainPage;
 
-},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../actions/SynchronousAction":217,"../stores/MenuStore":228,"../stores/OverviewStore":229,"../stores/ProductStore":230,"../views/Header":231,"react":"nakDgH","react-router":14,"reflux":196}],225:[function(require,module,exports){
+},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../actions/SynchronousAction":217,"../stores/DefaultDataStore":228,"../stores/MenuStore":229,"../stores/OverviewStore":230,"../stores/ProductStore":231,"../views/Header":232,"react":"nakDgH","react-router":14,"reflux":196}],225:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24976,7 +24978,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"../widgets/MessageWidgets":232,"../widgets/ToolbarWidgets":233,"react":"nakDgH","react-router":14}],226:[function(require,module,exports){
+},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],226:[function(require,module,exports){
 /**
  * Created by apple on 15/1/7.
  */
@@ -25011,6 +25013,51 @@ var OverviewAPI = {
 module.exports=OverviewAPI;
 
 },{}],228:[function(require,module,exports){
+/**
+ * Created by apple on 14/12/25.
+ */
+'use strict';
+
+var Reflux = require('reflux'),
+    DefaultDataStore;
+
+
+var actions=Reflux.createActions(['disarmBomb','saveHostage','recoverData']);
+
+
+
+
+DefaultDataStore = Reflux.createStore({
+    init: function() {
+        console.log(this.joinTrailing);
+        this.joinLeading(actions.disarmBomb, actions.saveHostage, actions.recoverData, this.joinLeadingHandler);
+        this.joinTrailing(actions.disarmBomb, actions.saveHostage, actions.recoverData, this.joinTrailingHandler);
+    }
+    ,
+    joinLeadingHandler:function(data1,data2,data3){
+        console.log(data1,data2,data3);
+    }
+    ,
+    joinTrailingHandler:function(data1,data2,data3){
+        console.log(data1,data2,data3);
+    }
+});
+
+
+actions.disarmBomb('1');
+actions.saveHostage('2');
+actions.recoverData('3');
+
+
+
+
+
+
+
+
+module.exports = DefaultDataStore;
+
+},{"reflux":196}],229:[function(require,module,exports){
 /**
  * Created by apple on 14/12/25.
  */
@@ -25064,7 +25111,7 @@ MenuStore = Reflux.createStore({
 
 module.exports = MenuStore;
 
-},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../services/MenuService":226,"reflux":196}],229:[function(require,module,exports){
+},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../services/MenuService":226,"reflux":196}],230:[function(require,module,exports){
 /**
  * Created by apple on 15/1/8.
  */
@@ -25102,7 +25149,7 @@ module.exports = OverviewStore;
 
 
 
-},{"../actions/SynchronousAction":217,"reflux":196}],230:[function(require,module,exports){
+},{"../actions/SynchronousAction":217,"reflux":196}],231:[function(require,module,exports){
 /**
  * Created by apple on 15/1/8.
  */
@@ -25134,7 +25181,7 @@ var ProductStore = Reflux.createStore({
 
 module.exports = ProductStore;
 
-},{"../actions/ProductActions":216,"reflux":196}],231:[function(require,module,exports){
+},{"../actions/ProductActions":216,"reflux":196}],232:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -25178,7 +25225,7 @@ Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":"nakDgH","react-router":14}],232:[function(require,module,exports){
+},{"react":"nakDgH","react-router":14}],233:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -25211,7 +25258,7 @@ var MessageWidgets = React.createClass({displayName: "MessageWidgets",
 
 module.exports = MessageWidgets;
 
-},{"react":"nakDgH","react-router":14}],233:[function(require,module,exports){
+},{"react":"nakDgH","react-router":14}],234:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';

@@ -28,6 +28,8 @@ var MenuStore = require('../stores/MenuStore');
 var ProductStore=require('../stores/ProductStore');
 var OverviewStore=require('../stores/OverviewStore');
 
+//var ParallelStore=require('../stores/ParallelStore');
+var DefaultDataStore=require('../stores/DefaultDataStore');
 
 
 
