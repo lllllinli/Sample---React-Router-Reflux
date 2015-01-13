@@ -24468,9 +24468,6 @@ ClickAction = Reflux.createAction([
 module.exports = ClickAction;
 
 },{"reflux":196}],215:[function(require,module,exports){
-/**
- * Created by apple on 15/1/6.
- */
 'use strict';
 
 var Reflux = require('reflux'),
@@ -24481,21 +24478,30 @@ MainPageAction = Reflux.createAction([]);
 module.exports = MainPageAction;
 
 },{"reflux":196}],216:[function(require,module,exports){
-/**
- * Created by apple on 15/1/7.
- */
 'use strict';
 
+// 3 party API include
 var Reflux = require('reflux'),
+
+    // Custom module include
+    ProductAPI = require('../services/OverviewService'),
+
+    // variable
     ProductActions;
 
-var ProductAPI = require('../services/OverviewService');
 
+// Todo
+// 1. create 多個 Actions
+// 2. 以物件表示，Action 的主從關係
 
 ProductActions = Reflux.createActions({
     "load": {
         children: ["completed", "failed","onLoadStart"]}
 });
+
+// Todo
+// 1. 偵聽主要的 Action
+// 2. AJAX API，
 
 ProductActions.load.listen(function () {
 
@@ -24503,8 +24509,6 @@ ProductActions.load.listen(function () {
         .loadAll()
         .then(this.completed,this.failed);
 });
-
-
 
 
 module.exports = ProductActions;
@@ -24527,7 +24531,7 @@ SynchronousAction = Reflux.createActions([
 ]);
 
 
-
+// 設定
 SynchronousAction.loadAll.preEmit=function(){
     OverviewAPI.loadAll().then(SynchronousAction.loadAllComplete);
 };
@@ -24539,41 +24543,36 @@ module.exports = SynchronousAction;
 /** @jsx React.DOM */
 
 'use strict';
-/**
- *
- * @type {*|exports}
- */
-var React = require('react');
-var Router = require('react-router');
 
-/**
- *
- * @type {exports.Route|*}
- */
-var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
-var Redirect=Router.Redirect;
+// 3 party API include
+var React = require('react'),
+    Router = require('react-router'),
 
+    // Variable Router
+    Routes,
+    Route = Router.Route,
+    NotFoundRoute = Router.NotFoundRoute,
+    DefaultRoute = Router.DefaultRoute,
+    RouteHandler = Router.RouteHandler,
+    Redirect=Router.Redirect,
 
-/**
- *
- * @type {page:React component}
- */
-var InboxPage = require('./pages/InboxPage');
-var InboxPageStats = require('./pages/InboxPageStats');
-var CalendarPages = require('./pages/CalendarPages');
-var DashboardPage = require('./pages/DashboardPage');
-var MainPage = require('./pages/MainPage');
-var MessageWidgets = require('./widgets/MessageWidgets');
+    // include React Component Page
 
-var NotFoundPage=require('./pages/NotFoundPage');
-var InboxNotFoundPage=require('./pages/InboxNotFoundPage');
+    MainPage = require('./pages/MainPage'),
+    InboxPage = require('./pages/InboxPage'),
+    InboxPageStats = require('./pages/InboxPageStats'),
+    CalendarPages = require('./pages/CalendarPages'),
+    DashboardPage = require('./pages/DashboardPage'),
+
+    MessageWidgets = require('./widgets/MessageWidgets'),
+
+    // 設定 Router 404 頁。
+    NotFoundPage=require('./pages/NotFoundPage'),
+    InboxNotFoundPage=require('./pages/InboxNotFoundPage');
 
 
 
-var Routes = (
+Routes = (
     /*jshint ignore:start */
     React.createElement(Route, {name: "app", path: "/", handler: MainPage}, 
         React.createElement(Route, {name: "inbox", handler: InboxPage}, 
@@ -24607,7 +24606,7 @@ Router.run(Routes, function (Handler, state) {
 
 
 
-},{"./pages/CalendarPages":219,"./pages/DashboardPage":220,"./pages/InboxNotFoundPage":221,"./pages/InboxPage":222,"./pages/InboxPageStats":223,"./pages/MainPage":224,"./pages/NotFoundPage":225,"./widgets/MessageWidgets":233,"react":"nakDgH","react-router":14}],219:[function(require,module,exports){
+},{"./pages/CalendarPages":219,"./pages/DashboardPage":220,"./pages/InboxNotFoundPage":221,"./pages/InboxPage":222,"./pages/InboxPageStats":223,"./pages/MainPage":224,"./pages/NotFoundPage":225,"./widgets/MessageWidgets":234,"react":"nakDgH","react-router":14}],219:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24708,8 +24707,8 @@ module.exports = CalendarPages;
 var React = require('react');
 
 
-
 var DashboardPage = React.createClass({displayName: "DashboardPage",
+
     render: function () {
         return (
             /*jshint ignore:start */
@@ -24756,7 +24755,7 @@ var InboxNotFoundPage = React.createClass({displayName: "InboxNotFoundPage",
 
 module.exports = InboxNotFoundPage;
 
-},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],222:[function(require,module,exports){
+},{"../widgets/MessageWidgets":234,"../widgets/ToolbarWidgets":235,"react":"nakDgH","react-router":14}],222:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24791,7 +24790,7 @@ var InboxPage = React.createClass({displayName: "InboxPage",
 
 module.exports = InboxPage;
 
-},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],223:[function(require,module,exports){
+},{"../widgets/MessageWidgets":234,"../widgets/ToolbarWidgets":235,"react":"nakDgH","react-router":14}],223:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24823,108 +24822,98 @@ var InboxPageStats = React.createClass({displayName: "InboxPageStats",
 
 module.exports = InboxPageStats;
 
-},{"../widgets/MessageWidgets":233,"react":"nakDgH","react-router":14}],224:[function(require,module,exports){
+},{"../widgets/MessageWidgets":234,"react":"nakDgH","react-router":14}],224:[function(require,module,exports){
 /** @jsx React.DOM */
-
 'use strict';
-/*
-* include
-* */
-var React = require('react');
-var Router = require('react-router');
-var Reflux=require('reflux');
 
-/* React-Router */
-var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
+// 3 party API - Include
+var React = require('react'),
+    Router = require('react-router'),
+    Reflux = require('reflux'),
 
-
-/* React Component */
-var Header = require('../views/Header');
+// Variable Router
+    Link = Router.Link,
+    RouteHandler = Router.RouteHandler,
 
 
+// Reflux Actions
+    MainPageAction = require('../actions/MainPageAction'),
+    ClickAction = require('../actions/ClickAction'),
+    SynchronousAction = require('../actions/SynchronousAction'),
+    ProductActions = require('../actions/ProductActions'),
 
 
-/* Reflux Action */
-var MainPageAction = require('../actions/MainPageAction');
-var ClickAction=require('../actions/ClickAction');
-var SynchronousAction=require('../actions/SynchronousAction');
-/* Reflux Store */
-var MenuStore = require('../stores/MenuStore');
-var ProductStore=require('../stores/ProductStore');
-var OverviewStore=require('../stores/OverviewStore');
+// Reflux Stores
+    MenuStore = require('../stores/MenuStore'),
+    ProductStore = require('../stores/ProductStore'),
+    OverviewStore = require('../stores/OverviewStore'),
 
-//var ParallelStore=require('../stores/ParallelStore');
-var DefaultDataStore=require('../stores/DefaultDataStore');
+    ParallelStore = require('../stores/ParallelStore'),
+    DefaultDataStore = require('../stores/DefaultDataStore'),
 
 
+// React Component - Include
+    Header = require('../views/Header'),
 
-var MainPage = React.createClass({displayName: "MainPage",
 
-    // Custom Method
-    initPageData: function () {
-        //console.log('> initPageData。');
-    },
-    // 繼承的 React 物件
-    mixins:[],
-    // 客製可以讓外部呼叫 React Function
-    // ex : MainPage.publicFun()
-    statics:{
-        publicFun:function(){
-            console.log('call me');
-        }
-    },
-    // 初始化 React 參數
-    getInitialState: function () {
-        return {menuData: {}};
-    },
-    propTypes:{
+// React Component
+    MainPage;
 
-    },
-    getDefaultProps:function(){
+
+MainPage = React.createClass({displayName: "MainPage",
+    // LifeCycle
+    mixins: [],
+    propTypes: {},
+    getDefaultProps: function () {
         return {};
     },
-    /* Lifecycle Methods */
-    /* React - Mounting 掛載流程 */
+    getInitialState: function () {
+        return {
+            btnMsg: 0,
+            routerHandlerClass: 'linliContent',
+            menuData: {}
+        };
+    },
     componentWillMount: function () {
-        this.initPageData();
     },
     componentDidMount: function () {
 
         // 發出 Action
+
+        // 基本 Action。
         MainPageAction();
-        //ProductActions.load();
-        //SynchronousAction.loadAll();
 
+        // 階層式 Action 。
+        ProductActions.load();
 
+        SynchronousAction.loadAll();
 
         // 偵聽 Store
-        this.unsubscribe = MenuStore.listen(this.onMenuStore);
+
+        this.unsubscribeMenuStore = MenuStore.listen(this.onMenuStore);
+        this.unsubscribeProductStore = ProductStore.listen(this.onProductStore);
 
     },
+    componentWillReceiveProps: function (nextProps) {
+    },
+    componentWillUnmount: function () {
+        // 移除 store 偵聽
+        this.unsubscribeMenuStore();
+        this.unsubscribeProductStore();
+    },
+    // Custom method
     onMenuStore: function (data) {
-
-        if(data.dataType !='updateButton'){
+        if (data.dataType != 'updateButton') {
             this.setState({menuData: data.data});
-        }else{
-            this.getDOMNode()
+        } else {
+            this.state.btnMsg = this.state.btnMsg + 1;
+            this.forceUpdate();
         }
     },
-    // React - Updating 更新流程
-    componentWillReceiveProps: function (nextProps) {
-
+    onProductStore: function (result) {
+        console.log(result.actionType);
     },
-    shouldComponentUpdate: function (nextProps, nextState) {
-        return true;
-        /* need return true/false */
-    },
-    componentWillUpdate: function (nextProps, nextState) {
-    },
-    // React - Unmounting 卸載流程
-    componentWillUnmount: function () {
-        this.unsubscribe();
-    },
-    clickHandler:function(){
+    clickHandler: function () {
         // 發出 Action
         ClickAction();
     },
@@ -24932,11 +24921,12 @@ var MainPage = React.createClass({displayName: "MainPage",
 
         return (
             /*jshint ignore:start */
-            React.createElement("div", {className: "Wrapper", ref: "wee"}, 
+            React.createElement("div", {className: "Wrapper", ref: "w"}, 
                 /* 將 state 資料存給 Header Component */
                 React.createElement(Header, {menuData: this.state.menuData}), 
-                React.createElement("button", {onClick: this.clickHandler}, "click me"), 
-                React.createElement(RouteHandler, null)
+                React.createElement("button", {onClick: this.clickHandler, ref: "clickBtn"}, this.state.btnMsg), 
+                /*  */
+                React.createElement(RouteHandler, React.__spread({},  this.state))
             )
             /*jshint ignore:end */
         );
@@ -24945,7 +24935,7 @@ var MainPage = React.createClass({displayName: "MainPage",
 
 module.exports = MainPage;
 
-},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../actions/SynchronousAction":217,"../stores/DefaultDataStore":228,"../stores/MenuStore":229,"../stores/OverviewStore":230,"../stores/ProductStore":231,"../views/Header":232,"react":"nakDgH","react-router":14,"reflux":196}],225:[function(require,module,exports){
+},{"../actions/ClickAction":214,"../actions/MainPageAction":215,"../actions/ProductActions":216,"../actions/SynchronousAction":217,"../stores/DefaultDataStore":228,"../stores/MenuStore":229,"../stores/OverviewStore":230,"../stores/ParallelStore":231,"../stores/ProductStore":232,"../views/Header":233,"react":"nakDgH","react-router":14,"reflux":196}],225:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -24978,19 +24968,19 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"../widgets/MessageWidgets":233,"../widgets/ToolbarWidgets":234,"react":"nakDgH","react-router":14}],226:[function(require,module,exports){
+},{"../widgets/MessageWidgets":234,"../widgets/ToolbarWidgets":235,"react":"nakDgH","react-router":14}],226:[function(require,module,exports){
 /**
  * Created by apple on 15/1/7.
  */
 var MenuService=function(){
 
-    var p = $.ajax({
+    var promise = $.ajax({
         url: './app/data/MenuData.json',
         contentType: "application/json",
         dataType: 'JSON'
     });
 
-    return p;
+    return promise;
 };
 
 module.exports=MenuService;
@@ -25001,16 +24991,19 @@ module.exports=MenuService;
  */
 
 var OverviewAPI = {
-    loadAll:function(){
-        return $.ajax({
+    loadAll: function () {
+
+        var promise = $.ajax({
             url: './app/data/OverviewData.json',
             contentType: "application/json",
             dataType: 'JSON'
-        })
+        });
+
+        return promise;
     }
 };
 
-module.exports=OverviewAPI;
+module.exports = OverviewAPI;
 
 },{}],228:[function(require,module,exports){
 /**
@@ -25029,7 +25022,7 @@ var actions=Reflux.createActions(['disarmBomb','saveHostage','recoverData']);
 
 DefaultDataStore = Reflux.createStore({
     init: function() {
-        console.log(this.joinTrailing);
+        //console.log(this.joinTrailing);
         this.joinLeading(actions.disarmBomb, actions.saveHostage, actions.recoverData, this.joinLeadingHandler);
         this.joinTrailing(actions.disarmBomb, actions.saveHostage, actions.recoverData, this.joinTrailingHandler);
     }
@@ -25043,10 +25036,10 @@ DefaultDataStore = Reflux.createStore({
     }
 });
 
-
-actions.disarmBomb('1');
-actions.saveHostage('2');
-actions.recoverData('3');
+//
+//actions.disarmBomb('1');
+//actions.saveHostage('2');
+//actions.recoverData('3');
 
 
 
@@ -25070,38 +25063,34 @@ var Reflux = require('reflux'),
     ClickAction = require('../actions/ClickAction');
 
 
+// 預設當 Store 被 create 時，init method 會自動被執行。
 MenuStore = Reflux.createStore({
     data: {},
     // Initial setup
     init: function () {
         // 初始化自動執行一次
-        console.log('MenuStore init');
 
+        // TODO 偵聽兩個 Action
         this.listenTo(MainPageAction, this.MainPageActionHandler);
         this.listenTo(ClickAction, this.handleClick);
+
     },
     // Callback
     MainPageActionHandler: function () {
 
-        var that = this;
+        var that = this,
+            promise = MenuService();
 
-        console.log('MainPageActionHandler');
-
-        var p = MenuService();
-
-        p.done(function (result) {
-            console.log('ajax', result);
+        promise.done(function (result) {
             that.trigger({
                 dataType: 'updateData',
                 data: result
             });
-
         });
-
 
     },
     handleClick: function () {
-        console.log('click Me');
+
         this.trigger({
             dataType: 'updateButton',
             data: 'hi'
@@ -25151,6 +25140,74 @@ module.exports = OverviewStore;
 
 },{"../actions/SynchronousAction":217,"reflux":196}],231:[function(require,module,exports){
 /**
+ * Created by apple on 14/12/25.
+ */
+'use strict';
+
+var Reflux = require('reflux'),
+    ParallelStore;
+
+// (source) http://spoike.ghost.io/reflux-0-1-6-now-with-a-better-waitfor/
+// 合併多個 Actions 或 Stores
+
+
+var Action = Reflux.createActions(['add', 'edit', 'delete', 'modify']);
+
+// mixin 的方式加入
+var MyStoreNixin = {
+    setData:function(data){
+        this.data=data;
+    }
+};
+var Store = Reflux.createStore({
+    mixins:[MyStoreNixin],
+    init:function(){
+        /* 可以在這裡預設資料 */
+        this.data={name:'linli'};
+        //console.log('create Store');
+        this.listenTo(Action.delete,this.deleteHandler);
+    },
+    deleteHandler:function(msg){
+        console.log('deleteHandler',msg);
+        this.trigger(msg);
+    },
+    getData:function(){return this.data}
+});
+//
+Store.setData({name:'StandLin'});
+///* 可靜態取得資料 */
+//console.log(Store.getData());
+
+
+// Reflux.all 可以合併多個 Action 和 Store
+var theTide =Reflux.all(Action.add,Action.edit,Store);
+
+ParallelStore = Reflux.createStore({
+    data: {},
+    // Initial setup
+    init: function () {
+        // 初始化自動執行一次
+        //console.log('ParallelStore init');
+
+        this.listenTo(theTide, this.handler);
+
+    },
+    // Callback
+    handler: function (msg1,msg2,msg3) {
+        console.log('ParallelStore handler',msg1,msg2,msg3);
+
+    }
+
+});
+
+//Action.add('1');
+//Action.edit('2');
+//Action.delete('3');
+
+module.exports = ParallelStore;
+
+},{"reflux":196}],232:[function(require,module,exports){
+/**
  * Created by apple on 15/1/8.
  */
 'use strict';
@@ -25159,29 +25216,36 @@ var Reflux = require('reflux');
 var ProductActions = require('../actions/ProductActions');
 
 var ProductStore = Reflux.createStore({
-    init: function() {
-        this.Data={};
+    init: function () {
+        this.Data = {};
         //
-        //this.listenToMany(ProductActions,this.onLoad);
-        this.listenTo(ProductActions.load.completed,this.onLoadCompleted);
-        this.listenTo(ProductActions.load.failed,this.onLoadFailed);
+        this.listenTo(ProductActions.load, this.onLoad);
+        this.listenTo(ProductActions.load.completed, this.onLoadCompleted);
+        this.listenTo(ProductActions.load.failed, this.onLoadFailed);
     },
-    onLoad: function(){
-        console.log('onload');
+    onLoad: function () {
+        console.log('>> ProductStore onload : 總是被執行。');
         // product load started
+        this.trigger({
+            actionType: 'load'
+        });
     },
-    onLoadCompleted: function(product){
-        console.log('>>onLoadCompleted',product);
-
+    onLoadCompleted: function (product) {
+        console.log('>> ProductStore onLoadCompleted : 下載成功。', product);
+        this.trigger({
+            actionType: 'onLoadCompleted',
+            data: product
+        });
     },
-    onLoadFailed:function(){
+    onLoadFailed: function (err) {
+        console.log('>> ProductStore onLoadFailed : 下載失敗。', err);
 
     }
 });
 
 module.exports = ProductStore;
 
-},{"../actions/ProductActions":216,"reflux":196}],232:[function(require,module,exports){
+},{"../actions/ProductActions":216,"reflux":196}],233:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -25225,7 +25289,7 @@ Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":"nakDgH","react-router":14}],233:[function(require,module,exports){
+},{"react":"nakDgH","react-router":14}],234:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';
@@ -25258,7 +25322,7 @@ var MessageWidgets = React.createClass({displayName: "MessageWidgets",
 
 module.exports = MessageWidgets;
 
-},{"react":"nakDgH","react-router":14}],234:[function(require,module,exports){
+},{"react":"nakDgH","react-router":14}],235:[function(require,module,exports){
 /** @jsx React.DOM */
 
 'use strict';

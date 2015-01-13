@@ -1,41 +1,36 @@
 /** @jsx React.DOM */
 
 'use strict';
-/**
- *
- * @type {*|exports}
- */
-var React = require('react');
-var Router = require('react-router');
 
-/**
- *
- * @type {exports.Route|*}
- */
-var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
-var Redirect=Router.Redirect;
+// 3 party API include
+var React = require('react'),
+    Router = require('react-router'),
 
+    // Variable Router
+    Routes,
+    Route = Router.Route,
+    NotFoundRoute = Router.NotFoundRoute,
+    DefaultRoute = Router.DefaultRoute,
+    RouteHandler = Router.RouteHandler,
+    Redirect=Router.Redirect,
 
-/**
- *
- * @type {page:React component}
- */
-var InboxPage = require('./pages/InboxPage');
-var InboxPageStats = require('./pages/InboxPageStats');
-var CalendarPages = require('./pages/CalendarPages');
-var DashboardPage = require('./pages/DashboardPage');
-var MainPage = require('./pages/MainPage');
-var MessageWidgets = require('./widgets/MessageWidgets');
+    // include React Component Page
 
-var NotFoundPage=require('./pages/NotFoundPage');
-var InboxNotFoundPage=require('./pages/InboxNotFoundPage');
+    MainPage = require('./pages/MainPage'),
+    InboxPage = require('./pages/InboxPage'),
+    InboxPageStats = require('./pages/InboxPageStats'),
+    CalendarPages = require('./pages/CalendarPages'),
+    DashboardPage = require('./pages/DashboardPage'),
+
+    MessageWidgets = require('./widgets/MessageWidgets'),
+
+    // 設定 Router 404 頁。
+    NotFoundPage=require('./pages/NotFoundPage'),
+    InboxNotFoundPage=require('./pages/InboxNotFoundPage');
 
 
 
-var Routes = (
+Routes = (
     /*jshint ignore:start */
     <Route name="app" path="/" handler={MainPage}>
         <Route name="inbox" handler={InboxPage}>

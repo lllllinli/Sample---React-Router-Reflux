@@ -23,7 +23,7 @@ var Store = Reflux.createStore({
     init:function(){
         /* 可以在這裡預設資料 */
         this.data={name:'linli'};
-        console.log('create Store');
+        //console.log('create Store');
         this.listenTo(Action.delete,this.deleteHandler);
     },
     deleteHandler:function(msg){
@@ -34,8 +34,8 @@ var Store = Reflux.createStore({
 });
 //
 Store.setData({name:'StandLin'});
-/* 可靜態取得資料 */
-console.log(Store.getData());
+///* 可靜態取得資料 */
+//console.log(Store.getData());
 
 
 // Reflux.all 可以合併多個 Action 和 Store
@@ -46,7 +46,7 @@ ParallelStore = Reflux.createStore({
     // Initial setup
     init: function () {
         // 初始化自動執行一次
-        console.log('ParallelStore init');
+        //console.log('ParallelStore init');
 
         this.listenTo(theTide, this.handler);
 
@@ -59,8 +59,8 @@ ParallelStore = Reflux.createStore({
 
 });
 
-Action.add('1');
-Action.edit('2');
-Action.delete('3');
+//Action.add('1');
+//Action.edit('2');
+//Action.delete('3');
 
 module.exports = ParallelStore;

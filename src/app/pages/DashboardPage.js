@@ -5,8 +5,8 @@
 var React = require('react');
 
 
-
 var DashboardPage = React.createClass({
+
     render: function () {
         return (
             /*jshint ignore:start */

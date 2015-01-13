@@ -15,7 +15,7 @@ SynchronousAction = Reflux.createActions([
 ]);
 
 
-
+// 設定
 SynchronousAction.loadAll.preEmit=function(){
     OverviewAPI.loadAll().then(SynchronousAction.loadAllComplete);
 };

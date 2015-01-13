@@ -1,104 +1,94 @@
 /** @jsx React.DOM */
-
 'use strict';
-/*
-* include
-* */
-var React = require('react');
-var Router = require('react-router');
-var Reflux=require('reflux');
 
-/* React-Router */
-var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
+// 3 party API - Include
+var React = require('react'),
+    Router = require('react-router'),
+    Reflux = require('reflux'),
 
-
-/* React Component */
-var Header = require('../views/Header');
+// Variable Router
+    Link = Router.Link,
+    RouteHandler = Router.RouteHandler,
 
 
+// Reflux Actions
+    MainPageAction = require('../actions/MainPageAction'),
+    ClickAction = require('../actions/ClickAction'),
+    SynchronousAction = require('../actions/SynchronousAction'),
+    ProductActions = require('../actions/ProductActions'),
 
 
-/* Reflux Action */
-var MainPageAction = require('../actions/MainPageAction');
-var ClickAction=require('../actions/ClickAction');
-var SynchronousAction=require('../actions/SynchronousAction');
-/* Reflux Store */
-var MenuStore = require('../stores/MenuStore');
-var ProductStore=require('../stores/ProductStore');
-var OverviewStore=require('../stores/OverviewStore');
+// Reflux Stores
+    MenuStore = require('../stores/MenuStore'),
+    ProductStore = require('../stores/ProductStore'),
+    OverviewStore = require('../stores/OverviewStore'),
 
-//var ParallelStore=require('../stores/ParallelStore');
-var DefaultDataStore=require('../stores/DefaultDataStore');
+    ParallelStore = require('../stores/ParallelStore'),
+    DefaultDataStore = require('../stores/DefaultDataStore'),
 
 
+// React Component - Include
+    Header = require('../views/Header'),
 
-var MainPage = React.createClass({
 
-    // Custom Method
-    initPageData: function () {
-        //console.log('> initPageData。');
-    },
-    // 繼承的 React 物件
-    mixins:[],
-    // 客製可以讓外部呼叫 React Function
-    // ex : MainPage.publicFun()
-    statics:{
-        publicFun:function(){
-            console.log('call me');
-        }
-    },
-    // 初始化 React 參數
-    getInitialState: function () {
-        return {menuData: {}};
-    },
-    propTypes:{
+// React Component
+    MainPage;
 
-    },
-    getDefaultProps:function(){
+
+MainPage = React.createClass({
+    // LifeCycle
+    mixins: [],
+    propTypes: {},
+    getDefaultProps: function () {
         return {};
     },
-    /* Lifecycle Methods */
-    /* React - Mounting 掛載流程 */
+    getInitialState: function () {
+        return {
+            btnMsg: 0,
+            routerHandlerClass: 'linliContent',
+            menuData: {}
+        };
+    },
     componentWillMount: function () {
-        this.initPageData();
     },
     componentDidMount: function () {
 
         // 發出 Action
+
+        // 基本 Action。
         MainPageAction();
-        //ProductActions.load();
-        //SynchronousAction.loadAll();
 
+        // 階層式 Action 。
+        ProductActions.load();
 
+        SynchronousAction.loadAll();
 
         // 偵聽 Store
-        this.unsubscribe = MenuStore.listen(this.onMenuStore);
+
+        this.unsubscribeMenuStore = MenuStore.listen(this.onMenuStore);
+        this.unsubscribeProductStore = ProductStore.listen(this.onProductStore);
 
     },
+    componentWillReceiveProps: function (nextProps) {
+    },
+    componentWillUnmount: function () {
+        // 移除 store 偵聽
+        this.unsubscribeMenuStore();
+        this.unsubscribeProductStore();
+    },
+    // Custom method
     onMenuStore: function (data) {
-
-        if(data.dataType !='updateButton'){
+        if (data.dataType != 'updateButton') {
             this.setState({menuData: data.data});
-        }else{
-            this.getDOMNode()
+        } else {
+            this.state.btnMsg = this.state.btnMsg + 1;
+            this.forceUpdate();
         }
     },
-    // React - Updating 更新流程
-    componentWillReceiveProps: function (nextProps) {
-
+    onProductStore: function (result) {
+        console.log(result.actionType);
     },
-    shouldComponentUpdate: function (nextProps, nextState) {
-        return true;
-        /* need return true/false */
-    },
-    componentWillUpdate: function (nextProps, nextState) {
-    },
-    // React - Unmounting 卸載流程
-    componentWillUnmount: function () {
-        this.unsubscribe();
-    },
-    clickHandler:function(){
+    clickHandler: function () {
         // 發出 Action
         ClickAction();
     },
@@ -106,11 +96,12 @@ var MainPage = React.createClass({
 
         return (
             /*jshint ignore:start */
-            <div className="Wrapper" ref="wee">
+            <div className="Wrapper" ref="w">
                 {/* 將 state 資料存給 Header Component */}
                 <Header menuData={this.state.menuData}></Header>
-                <button onClick={this.clickHandler}>click me</button>
-                <RouteHandler />
+                <button onClick={this.clickHandler} ref="clickBtn">{this.state.btnMsg}</button>
+                {/*  */}
+                <RouteHandler {...this.state}/>
             </div>
             /*jshint ignore:end */
         );

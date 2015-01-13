@@ -3,13 +3,13 @@
  */
 var MenuService=function(){
 
-    var p = $.ajax({
+    var promise = $.ajax({
         url: './app/data/MenuData.json',
         contentType: "application/json",
         dataType: 'JSON'
     });
 
-    return p;
+    return promise;
 };
 
 module.exports=MenuService;

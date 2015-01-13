@@ -3,13 +3,16 @@
  */
 
 var OverviewAPI = {
-    loadAll:function(){
-        return $.ajax({
+    loadAll: function () {
+
+        var promise = $.ajax({
             url: './app/data/OverviewData.json',
             contentType: "application/json",
             dataType: 'JSON'
-        })
+        });
+
+        return promise;
     }
 };
 
-module.exports=OverviewAPI;
+module.exports = OverviewAPI;
